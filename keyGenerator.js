@@ -2,53 +2,58 @@
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
-    const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
-    const key = `KEY-${year}-${month}-${day}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`; // Add a random part to make it more unique
+    const month = ("0" + (date.getMonth() + 1)).slice(-2);
+    const day = ("0" + date.getDate()).slice(-2);
+    const key = `KEY-${year}-${month}-${day}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
     return key;
 }
 
-// Function to store the key in localStorage and retrieve it
+// Function to store and retrieve the key
 function getStoredKey() {
     const storedDate = localStorage.getItem('keyDate');
-    const currentDate = new Date().toISOString().slice(0, 10); // Get the current date in YYYY-MM-DD format
-    
-    // If the stored key date is different from the current date, generate a new key
+    const currentDate = new Date().toISOString().slice(0, 10);
+
     if (storedDate !== currentDate) {
         const newKey = generateKey();
         localStorage.setItem('key', newKey);
-        localStorage.setItem('keyDate', currentDate); // Store the current date for reference
+        localStorage.setItem('keyDate', currentDate);
         return newKey;
     }
-    
-    // If the key for today is already stored, return it
     return localStorage.getItem('key');
 }
 
 // Function to check if the user came from Linkvertise
-function checkReferrer() {
-    const referrer = document.referrer;
-    const linkvertiseUrl = "https://link-hub.net/1233399/icicle-key-generator"; // Your Linkvertise URL
+function checkAccess() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const verified = urlParams.get('verified');
 
-    // If the referrer is not from Linkvertise, show an alert and redirect to Linkvertise
-    if (!referrer.includes(linkvertiseUrl)) {
+    const storedVerification = localStorage.getItem('verifiedDate');
+    const currentDate = new Date().toISOString().slice(0, 10);
+
+    if (verified === "true") {
+        localStorage.setItem('verifiedDate', currentDate); // Store today's date as verified
+    }
+
+    // If user isn't verified for today, redirect them to Linkvertise
+    if (storedVerification !== currentDate) {
         alert("Please visit the website through Linkvertise to get your key.");
-        window.location.href = linkvertiseUrl; // Redirect to Linkvertise
+        window.location.href = "https://link-hub.net/1233399/icicle-key-generator"; // Redirect to Linkvertise
+        return;
+    }
+
+    // Display the key
+    const key = getStoredKey();
+    const keyElement = document.getElementById("key");
+    if (keyElement) {
+        keyElement.innerText = key;
     } else {
-        // If the referrer is from Linkvertise, proceed with displaying the key
-        const key = getStoredKey(); // Get or generate the key for today
-        const keyElement = document.getElementById("key"); // Find the element by id
-        if (keyElement) {
-            keyElement.innerText = key; // Set the key in the HTML element
-        } else {
-            console.log("Error: Element with id 'key' not found.");
-        }
+        console.log("Error: Element with id 'key' not found.");
     }
 }
 
 // Display the generated key on the page when it loads
 window.onload = function() {
-    checkReferrer(); // Check if the user came from Linkvertise
+    checkAccess();
 };
 
 // Copy the key to the clipboard
