@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Redirecting...</title>
+    <script>
+        // Auto-generate today's secret
+        function getDailySecret() {
+            const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
+            return btoa(`SECRET-${date}`); // Encoded daily secret
+        }
+
+        // Redirect to your key generator website with updated URL parameters
+        window.onload = function() {
+            const secret = getDailySecret();
+            window.location.href = `https://wrealaero.github.io/IcicleKeyGen/?verified=true&key=${secret}`;
+        };
+    </script>
+</head>
+<body>
+    <p>Redirecting...</p>
+</body>
+</html>
