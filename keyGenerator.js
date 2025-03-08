@@ -1,10 +1,15 @@
-// Function to generate a unique key based on the current date
+// Function to generate a unique key based on the current date and more complex randomness
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
-    const key = `KEY-${year}-${month}-${day}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
+
+    // Enhanced randomness with uppercase letters and numbers
+    const randomString = Math.random().toString(36).substring(2, 12).toUpperCase() + 
+                         Math.random().toString(36).substring(2, 12).toUpperCase();
+    const key = `KEY-${year}-${month}-${day}-${randomString}`;
+
     return key;
 }
 
@@ -42,6 +47,7 @@ function checkAccess() {
     // If user hasn't verified today, redirect to Linkvertise
     if (storedVerification !== currentDate) {
         if (!verified || providedKey !== correctKey) {
+            // Redirect to Linkvertise if not verified
             window.location.href = "https://linkvertise.com/1233399/icicle-key-generator?o=sharing";
             return;
         }
