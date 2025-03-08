@@ -22,26 +22,36 @@ function getStoredKey() {
     return localStorage.getItem('key');
 }
 
+// Function to generate a daily secret code
+function getDailySecret() {
+    const date = new Date().toISOString().slice(0, 10);
+    const secret = btoa(`SECRET-${date}`);
+    return secret;
+}
+
 // Function to check if the user came from Linkvertise
 function checkAccess() {
     const urlParams = new URLSearchParams(window.location.search);
     const verified = urlParams.get('verified');
+    const providedKey = urlParams.get('key');
+    const correctKey = getDailySecret(); // Correct key for today
 
     const storedVerification = localStorage.getItem('verifiedDate');
     const currentDate = new Date().toISOString().slice(0, 10);
 
-    if (verified === "true") {
-        localStorage.setItem('verifiedDate', currentDate); // Store today's date as verified
+    // If user came with both correct key AND ?verified=true, mark them as verified
+    if (verified === "true" && providedKey === correctKey) {
+        localStorage.setItem('verifiedDate', currentDate);
     }
 
-    // If user isn't verified for today, redirect them to Linkvertise
+    // If they haven't verified today, redirect to Linkvertise
     if (storedVerification !== currentDate) {
-        alert("Please visit the website through Linkvertise to get your key.");
-        window.location.href = "https://link-hub.net/1233399/icicle-key-generator"; // Redirect to Linkvertise
+        alert("Please visit Linkvertise to get your key.");
+        window.location.href = "https://link-hub.net/1233399/icicle-key-generator";
         return;
     }
 
-    // Display the key
+    // Display the key if verified
     const key = getStoredKey();
     const keyElement = document.getElementById("key");
     if (keyElement) {
