@@ -34,19 +34,21 @@ function checkReferrer() {
     if (!referrer.includes(linkvertiseUrl)) {
         alert("Please visit the website through Linkvertise to get your key.");
         window.location.href = linkvertiseUrl; // Redirect to Linkvertise
+    } else {
+        // If the referrer is from Linkvertise, proceed with displaying the key
+        const key = getStoredKey(); // Get or generate the key for today
+        const keyElement = document.getElementById("key"); // Find the element by id
+        if (keyElement) {
+            keyElement.innerText = key; // Set the key in the HTML element
+        } else {
+            console.log("Error: Element with id 'key' not found.");
+        }
     }
 }
 
 // Display the generated key on the page when it loads
 window.onload = function() {
     checkReferrer(); // Check if the user came from Linkvertise
-    const key = getStoredKey(); // Get or generate the key for today
-    const keyElement = document.getElementById("key"); // Find the element by id
-    if (keyElement) {
-        keyElement.innerText = key; // Set the key in the HTML element
-    } else {
-        console.log("Error: Element with id 'key' not found.");
-    }
 };
 
 // Copy the key to the clipboard
