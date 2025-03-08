@@ -1,10 +1,18 @@
-// Function to generate a unique key based on the current date
+// Function to generate a unique key based on the current date and random elements
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
     const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
-    const key = `KEY-${year}-${month}-${day}`; // The format KEY-YYYY-MM-DD
+
+    // Generate a random alphanumeric string (16 characters)
+    const randomString = Math.random().toString(36).substring(2, 18).toUpperCase();
+
+    // Generate a random special character
+    const specialChar = ['@', '#', '$', '%', '&', '*', '!'][Math.floor(Math.random() * 7)];
+
+    // Combine everything to form a unique key
+    const key = `KEY-${year}-${month}-${day}-${randomString}-${specialChar}`;
     return key;
 }
 
