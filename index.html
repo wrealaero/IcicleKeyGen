@@ -92,7 +92,7 @@
     <div class="key-box">
         <h1>Get Your Key!</h1>
         <p>Your key for today is:</p>
-        <p class="key" id="key">Loading...</p>
+        <p class="key" id="key"></p>
         <button class="button" onclick="copyKey()">Copy Key</button>
     </div>
 
@@ -124,18 +124,26 @@
             return localStorage.getItem('key');
         }
 
-        // Display the generated key on the page when it loads
+        // Function to check if the user came from Linkvertise
         window.onload = function() {
-            const key = getStoredKey(); // Get or generate the key for today
-            const keyElement = document.getElementById("key"); // Find the element by id
-            if (keyElement) {
-                keyElement.innerText = key; // Set the key in the HTML element
+            const urlParams = new URLSearchParams(window.location.search);
+            const referrer = urlParams.get('ref') || document.referrer;
+            const linkvertiseURL = "https://linkvertise.com"; // Your Linkvertise page URL
+
+            if (referrer !== 'linkvertise' && referrer.indexOf(linkvertiseURL) === -1) {
+                // If no valid referrer, show error or redirect
+                document.body.innerHTML = "<h1>You must visit through Linkvertise!</h1>";
             } else {
-                console.log("Error: Element with id 'key' not found.");
+                // Proceed with key generation
+                const key = getStoredKey();
+                const keyElement = document.getElementById("key");
+                if (keyElement) {
+                    keyElement.innerText = key;
+                }
             }
         };
 
-        // Copy the key to the clipboard
+        // Function to copy the key to the clipboard
         function copyKey() {
             const keyElement = document.getElementById("key");
             if (keyElement) {
@@ -145,7 +153,6 @@
                 });
             }
         }
-
     </script>
 </body>
 </html>
