@@ -15,8 +15,6 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            animation: gradientBackground 10s ease infinite;
         }
 
         .login-box {
@@ -45,7 +43,6 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
         .button:hover {
@@ -61,7 +58,7 @@
     </div>
 
     <div class="key-box" id="key-box" style="display: none;">
-        <h1>Get Your Key!</h1>
+        <h1>Your Key for Today</h1>
         <p>Your key for today is:</p>
         <p class="key" id="key"></p>
         <button class="button" onclick="copyKey()">Copy Key</button>
