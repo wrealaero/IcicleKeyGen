@@ -1,57 +1,42 @@
-// Function to generate a random string (alphanumeric characters)
-function generateRandomString(length) {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * chars.length);
-        result += chars[randomIndex];
-    }
-    return result;
-}
-
-// Function to generate a key based on the current date + random string
+// Function to generate a unique key based on the current date
 function generateKey() {
     const date = new Date();
-    // Format: KEY-YYYY-MM-DD
-    const datePart = "KEY-" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-    const randomPart = generateRandomString(8);  // 8 random alphanumeric characters
-    const key = `${datePart}-${randomPart}`; // Combine date and random part for final key
-    
-    console.log("Generated Key: " + key); // Log the key to the console (for debugging)
+    const year = date.getFullYear();
+    const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
+    const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
+    const key = `KEY-${year}-${month}-${day}`; // The format KEY-YYYY-MM-DD
     return key;
 }
 
-// Function to get or generate the key
-function getKey() {
-    const storedKey = localStorage.getItem('dailyKey');
-    const storedTimestamp = localStorage.getItem('keyTimestamp');
-    const currentTime = new Date().getTime();
-    const oneDayInMs = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-
-    // If a key exists and it's within the 24-hour validity period, return the stored key
-    if (storedKey && currentTime - storedTimestamp < oneDayInMs) {
-        return storedKey;
-    } else {
-        // Otherwise, generate a new key and store it with the current timestamp
+// Function to store the key in localStorage and retrieve it
+function getStoredKey() {
+    const storedDate = localStorage.getItem('keyDate');
+    const currentDate = new Date().toISOString().slice(0, 10); // Get the current date in YYYY-MM-DD format
+    
+    // If the stored key date is different from the current date, generate a new key
+    if (storedDate !== currentDate) {
         const newKey = generateKey();
-        localStorage.setItem('dailyKey', newKey);
-        localStorage.setItem('keyTimestamp', currentTime); // Store the current timestamp
+        localStorage.setItem('key', newKey);
+        localStorage.setItem('keyDate', currentDate); // Store the current date for reference
         return newKey;
     }
+    
+    // If the key for today is already stored, return it
+    return localStorage.getItem('key');
 }
 
-// Display the generated key on the page after it loads
+// Display the generated key on the page when it loads
 window.onload = function() {
-    const key = getKey();  // Get the key (either from localStorage or generated)
-    const keyElement = document.getElementById("key");  // Find the element by id
+    const key = getStoredKey(); // Get or generate the key for today
+    const keyElement = document.getElementById("key"); // Find the element by id
     if (keyElement) {
-        keyElement.innerText = key;  // Set the key in the HTML element
+        keyElement.innerText = key; // Set the key in the HTML element
     } else {
         console.log("Error: Element with id 'key' not found.");
     }
 };
 
-// Copy key function
+// Copy the key to the clipboard
 function copyKey() {
     const keyElement = document.getElementById("key");
     if (keyElement) {
@@ -61,3 +46,8 @@ function copyKey() {
         });
     }
 }
+
+// Event listener for the "Copy" button
+document.getElementById('copyButton').addEventListener('click', function() {
+    copyKey();
+});
