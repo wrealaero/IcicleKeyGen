@@ -1,9 +1,10 @@
 // Function to generate a key based on the current date
 function generateKey() {
     const date = new Date();
-    const key = "KEY-" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); // Format: KEY-YYYY-MM-DD
+    // Format: KEY-YYYY-MM-DD (e.g., KEY-2025-03-07)
+    const key = "KEY-" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
     return key;
 }
 
-// Show the generated key on the page
+// Display the generated key on the page
 document.getElementById("key").innerText = generateKey();
