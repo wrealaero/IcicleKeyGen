@@ -31,3 +31,14 @@ window.onload = function() {
         console.log("Error: Element with id 'key' not found.");
     }
 };
+
+// Copy key function
+function copyKey() {
+    const keyElement = document.getElementById("key");
+    if (keyElement) {
+        const key = keyElement.innerText;
+        navigator.clipboard.writeText(key).then(() => {
+            alert("Key copied to clipboard!");
+        });
+    }
+}
