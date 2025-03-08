@@ -34,7 +34,7 @@ function getDailySecret() {
     return secret;
 }
 
-// Function to check if the user came from Linkvertise
+// Function to check if the user came from Linkvertise or entered the correct password
 function checkAccess() {
     const urlParams = new URLSearchParams(window.location.search);
     const verified = urlParams.get('verified');
