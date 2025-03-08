@@ -39,16 +39,17 @@ function checkAccess() {
     const storedVerification = localStorage.getItem('verifiedDate');
     const currentDate = new Date().toISOString().slice(0, 10);
 
-    // If user came with both correct key AND ?verified=true, mark them as verified
-    if (verified === "true" && providedKey === correctKey) {
-        localStorage.setItem('verifiedDate', currentDate);
+    // If user hasn't verified today, redirect to Linkvertise
+    if (storedVerification !== currentDate) {
+        if (!verified || providedKey !== correctKey) {
+            window.location.href = "https://linkvertise.com/1233399/icicle-key-generator?o=sharing";
+            return;
+        }
     }
 
-    // If they haven't verified today, redirect to Linkvertise
-    if (storedVerification !== currentDate) {
-        alert("Please visit Linkvertise to get your key.");
-        window.location.href = "https://link-hub.net/1233399/icicle-key-generator";
-        return;
+    // If they are verified today, store the verification date and display the key
+    if (verified === "true" && providedKey === correctKey) {
+        localStorage.setItem('verifiedDate', currentDate);
     }
 
     // Display the key if verified
