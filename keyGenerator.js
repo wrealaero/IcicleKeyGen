@@ -1,15 +1,10 @@
-// Function to generate a unique key based on the current date and a random string
+// Function to generate a unique key based on the current date
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
     const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
-
-    // Generate a random alphanumeric string of length 8
-    const randomString = Math.random().toString(36).substring(2, 10).toUpperCase();
-
-    // Combine the date and random string to create a more unique key
-    const key = `KEY-${year}-${month}-${day}-${randomString}`;
+    const key = `KEY-${year}-${month}-${day}-${Math.random().toString(36).substring(2, 8).toUpperCase()}`; // Add a random part to make it more unique
     return key;
 }
 
@@ -30,8 +25,21 @@ function getStoredKey() {
     return localStorage.getItem('key');
 }
 
+// Function to check if the user came from Linkvertise
+function checkReferrer() {
+    const referrer = document.referrer;
+    const linkvertiseUrl = "https://link-hub.net/1233399/icicle-key-generator"; // Your Linkvertise URL
+
+    // If the referrer is not from Linkvertise, show an alert and redirect to Linkvertise
+    if (!referrer.includes(linkvertiseUrl)) {
+        alert("Please visit the website through Linkvertise to get your key.");
+        window.location.href = linkvertiseUrl; // Redirect to Linkvertise
+    }
+}
+
 // Display the generated key on the page when it loads
 window.onload = function() {
+    checkReferrer(); // Check if the user came from Linkvertise
     const key = getStoredKey(); // Get or generate the key for today
     const keyElement = document.getElementById("key"); // Find the element by id
     if (keyElement) {
