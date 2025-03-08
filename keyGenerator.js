@@ -5,14 +5,17 @@ function generateKey() {
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
     const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
 
-    // Generate a random alphanumeric string (16 characters)
-    const randomString = Math.random().toString(36).substring(2, 18).toUpperCase();
+    // Generate a random alphanumeric string (20 characters)
+    const randomString = Math.random().toString(36).substring(2, 22).toUpperCase();
 
-    // Generate a random special character
-    const specialChar = ['@', '#', '$', '%', '&', '*', '!'][Math.floor(Math.random() * 7)];
+    // Generate a random special character from a set of symbols
+    const specialChar = ['@', '#', '$', '%', '&', '*', '!', '^', '+', '-'][Math.floor(Math.random() * 10)];
+
+    // Adding a timestamp as an additional unique identifier (in milliseconds)
+    const timestamp = Date.now().toString().slice(-5); // Get last 5 digits of the timestamp
 
     // Combine everything to form a unique key
-    const key = `KEY-${year}-${month}-${day}-${randomString}-${specialChar}`;
+    const key = `KEY-${year}-${month}-${day}-${randomString}-${specialChar}${timestamp}`;
     return key;
 }
 
