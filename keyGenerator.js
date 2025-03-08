@@ -7,4 +7,6 @@ function generateKey() {
 }
 
 // Display the generated key on the page
-document.getElementById("key").innerText = generateKey();
+window.onload = function() {
+    document.getElementById("key").innerText = generateKey();
+};
