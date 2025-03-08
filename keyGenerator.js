@@ -1,21 +1,15 @@
-// Function to generate a unique key based on the current date and random elements
+// Function to generate a unique key based on the current date and a random string
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2); // Ensure two-digit month
     const day = ("0" + date.getDate()).slice(-2); // Ensure two-digit day
 
-    // Generate a random alphanumeric string (20 characters)
-    const randomString = Math.random().toString(36).substring(2, 22).toUpperCase();
+    // Generate a random alphanumeric string of length 8
+    const randomString = Math.random().toString(36).substring(2, 10).toUpperCase();
 
-    // Generate a random special character from a set of symbols
-    const specialChar = ['@', '#', '$', '%', '&', '*', '!', '^', '+', '-'][Math.floor(Math.random() * 10)];
-
-    // Adding a timestamp as an additional unique identifier (in milliseconds)
-    const timestamp = Date.now().toString().slice(-5); // Get last 5 digits of the timestamp
-
-    // Combine everything to form a unique key
-    const key = `KEY-${year}-${month}-${day}-${randomString}-${specialChar}${timestamp}`;
+    // Combine the date and random string to create a more unique key
+    const key = `KEY-${year}-${month}-${day}-${randomString}`;
     return key;
 }
 
@@ -57,8 +51,3 @@ function copyKey() {
         });
     }
 }
-
-// Event listener for the "Copy" button
-document.getElementById('copyButton').addEventListener('click', function() {
-    copyKey();
-});
