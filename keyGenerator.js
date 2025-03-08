@@ -1,15 +1,15 @@
-// Function to generate a unique key based on the current date and more complex randomness
 function generateKey() {
     const date = new Date();
     const year = date.getFullYear();
     const month = ("0" + (date.getMonth() + 1)).slice(-2);
     const day = ("0" + date.getDate()).slice(-2);
 
-    // Enhanced randomness with uppercase letters and numbers
-    const randomString = Math.random().toString(36).substring(2, 12).toUpperCase() + 
-                         Math.random().toString(36).substring(2, 12).toUpperCase();
-    const key = `KEY-${year}-${month}-${day}-${randomString}`;
+    // Generate a more complex random string
+    const randomString = Math.random().toString(36).substring(2, 12).toUpperCase(); // Longer random string
+    const randomDigits = Math.floor(Math.random() * 10000); // Add random digits
 
+    // Combine them into a more complex key
+    const key = `KEY-${year}-${month}-${day}-${randomString}-${randomDigits}`;
     return key;
 }
 
