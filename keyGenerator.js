@@ -1,24 +1,19 @@
+// Function to generate key based on the current date
 function generateKey() {
-  const recaptchaResponse = grecaptcha.getResponse();
-  if (recaptchaResponse.length == 0) {
-    alert("Please complete the CAPTCHA to generate a key.");
-    return;
-  }
+    const date = new Date();
+    const key = "KEY-" + date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate(); // Format: KEY-YYYY-MM-DD
+    return key;
+}
 
-  const storedKey = localStorage.getItem('key');
-  const storedTimestamp = localStorage.getItem('timestamp');
-  const currentTime = Date.now();
+// Function to validate the key entered by the user
+function validateKey() {
+    const userKey = document.getElementById("keyInput").value;
+    const correctKey = generateKey(); // Generate today's key
 
-  if (storedKey && storedTimestamp && currentTime - storedTimestamp < 86400000) {
-    document.getElementById('keyDisplay').innerText = `Your key: ${storedKey}`;
-  } else {
-    let newKey = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for (let i = 0; i < 16; i++) {
-      newKey += characters.charAt(Math.floor(Math.random() * characters.length));
+    // Compare entered key with generated key
+    if (userKey === correctKey) {
+        document.getElementById("result").innerText = "Access Granted!";
+    } else {
+        document.getElementById("result").innerText = "Invalid Key. Try again!";
     }
-    localStorage.setItem('key', newKey);
-    localStorage.setItem('timestamp', currentTime.toString());
-    document.getElementById('keyDisplay').innerText = `Your key: ${newKey}`;
-  }
 }
