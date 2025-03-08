@@ -3,56 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Icicle Key Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet"> <!-- Custom Font -->
+    <title>Icicle Key Generator - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         /* Global Styles */
         body {
             font-family: 'Poppins', sans-serif;
-            background: linear-gradient(45deg, #4e54c8, #8f94fb); /* Gradient background */
+            background: linear-gradient(45deg, #4e54c8, #8f94fb);
             color: #fff;
             margin: 0;
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
-            animation: gradientBackground 10s ease infinite; /* Animated gradient background */
         }
 
-        /* Key Box */
-        .key-box {
+        .login-box {
             background-color: rgba(0, 0, 0, 0.7);
             padding: 30px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
-            max-width: 500px;
-            width: 100%;
         }
 
-        /* Title Text */
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            animation: textAnimation 1s ease-in-out infinite alternate;
+        input {
+            margin-top: 10px;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1em;
         }
 
-        /* Key Display */
-        .key {
-            font-size: 1.5em;
-            font-weight: 600;
+        button {
             margin-top: 20px;
-            color: #00ff99;
-            word-wrap: break-word;
-            animation: fadeInKey 2s ease-out;
-        }
-
-        /* Button Styles */
-        .button {
-            margin-top: 30px;
             padding: 10px 20px;
             background-color: #00ff99;
             color: #000;
@@ -61,41 +44,31 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s ease;
         }
 
-        .button:hover {
+        button:hover {
             background-color: #00e68a;
-        }
-
-        /* Animated Background */
-        @keyframes gradientBackground {
-            0% { background: linear-gradient(45deg, #4e54c8, #8f94fb); }
-            50% { background: linear-gradient(45deg, #a18cd1, #fbc2eb); }
-            100% { background: linear-gradient(45deg, #ff8c00, #e52d27); }
-        }
-
-        /* Text Animation */
-        @keyframes textAnimation {
-            0% { opacity: 0.5; transform: translateY(-10px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Key Animation */
-        @keyframes fadeInKey {
-            0% { opacity: 0; transform: translateY(20px); }
-            100% { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="key-box">
-        <h1>Get Your Key!</h1>
-        <p>Your key for today is:</p>
-        <p class="key" id="key"></p>
-        <button class="button" onclick="copyKey()">Copy Key</button>
+    <div class="login-box">
+        <h2>Enter Password to Access the Key Generator</h2>
+        <input type="password" id="password" placeholder="Enter Password" />
+        <button onclick="checkPassword()">Submit</button>
     </div>
 
-    <script src="keyGenerator.js"></script>
+    <script>
+        function checkPassword() {
+            const password = document.getElementById("password").value;
+            const correctPassword = "yourpassword"; // Change this to your desired password
+
+            if (password === correctPassword) {
+                window.location.href = "keypage.html"; // Redirect to the key generator page
+            } else {
+                alert("Incorrect password!");
+            }
+        }
+    </script>
 </body>
 </html>
